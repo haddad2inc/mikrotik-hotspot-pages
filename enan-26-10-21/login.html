@@ -1,0 +1,1195 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="theme-color" content="#673ab7" />
+    <meta name="color-scheme" content="dark only" />
+
+    <script src="js/hotCookie.min.js"></script>
+    <script src="js/hotInImprover.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>عينان نت</title>
+
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-gradient-start: #0b1120;
+            --bg-gradient-end: #19223b;
+            --card-bg: rgba(15, 25, 45, 0.75);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-primary: #f0f3fa;
+            --text-secondary: #b9c3e6;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.5);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --input-border: rgba(255, 255, 255, 0.2);
+            --btn-gradient: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            --btn-hover: linear-gradient(135deg, #9f6eff, #4f8eff);
+            --shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4);
+            --ticker-bg: rgba(0, 0, 0, 0.4);
+            --modal-bg: rgba(10, 20, 35, 0.95);
+            --modal-border: rgba(255, 255, 255, 0.2);
+            --table-header-bg: rgba(139, 92, 246, 0.3);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
+            --close-btn-bg: #ef4444;
+            --wifi-stroke: #8b5cf6;
+            --error-bg: rgba(0,0,0,0.3);
+            --error-text: #facc15;
+            --select-bg: rgba(139, 92, 246, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: var(--text-primary);
+        }
+
+       
+        .container {
+            max-width: 560px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+            text-align: center;
+        }
+
+       
+        .netowrk-name {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0.5rem 0;
+        }
+        #clock {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(0,0,0,0.2);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            margin: 0.5rem 0;
+        }
+        img[src="1.png"] {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 1.5rem;
+            margin: 0.5rem auto;
+            display: block;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+        }
+
+       
+        .ticker-wrap {
+            background: var(--ticker-bg);
+            border-radius: 60px;
+            padding: 0.5rem 0;
+            margin: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--card-border);
+            direction: ltr;
+        }
+        .ticker {
+            display: inline-block;
+            animation: scrollLeftToRight 40s linear infinite;
+        }
+        .item {
+            display: inline-block;
+            padding: 0 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        @keyframes scrollLeftToRight {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .ticker-wrap:hover .ticker {
+            animation-play-state: paused;
+        }
+
+      
+        .group-input {
+            background: var(--input-bg);
+            border-radius: 1.5rem;
+            position: relative;
+            border: 1px solid var(--input-border);
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: 0.2s;
+            margin: 1rem 0;
+        }
+        .group-input:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .group-input svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-secondary);
+            fill: none;
+        }
+        .group-input input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            padding: 0.6rem 0;
+            text-align: center;
+        }
+        .group-input input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+            text-align: center;
+        }
+
+        
+        .double-select {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0 1.2rem;
+        }
+        .double-select > div {
+            flex: 1;
+        }
+        .double-select label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .modern-select {
+            width: 100%;
+            background: var(--select-bg);
+            border: none;
+            border-radius: 1rem;
+            padding: 0.7rem 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .modern-select option {
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+        .modern-select option:checked {
+            background: var(--accent);
+            color: white;
+        }
+        .modern-select option:hover {
+            background: var(--table-header-bg);
+        }
+
+       
+        .pro-btn {
+            background: var(--btn-gradient);
+            border: none;
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        .pro-btn span {
+            flex: 1;
+            text-align: center;
+        }
+        .svg-wrapper-1 {
+            position: absolute;
+            left: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        .pro-btn:hover {
+            transform: translateY(-2px);
+            background: var(--btn-hover);
+            box-shadow: 0 12px 24px var(--accent-glow);
+        }
+       
+        .pro-btn:active .svg-wrapper-1, .pro-btn:active .svg-wrapper-right {
+            transform: scale(0.9);
+        }
+
+      
+		.rest-btn {
+        background: linear-gradient(135deg, #ef4444, #991b1b) !important;
+        box-shadow: 0 8px 18px rgba(239, 68, 68, 0.2) !important;
+    }
+    .rest-btn:hover {
+        background: linear-gradient(135deg, #f87171, #b91c1c) !important;
+    }
+    /* تأثير النقر المحترف */
+    .pro-btn:active {
+        transform: scale(0.98);
+        filter: brightness(0.9);
+    }
+        .svg-wrapper-right {
+            position: absolute;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .group-btn {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .group-btn .pro-btn {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--card-border);
+            box-shadow: none;
+            font-size: 0.9rem;
+            padding: 0.7rem;
+        }
+        .group-btn .pro-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+.info {
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    display: block;
+    text-align: center;
+    visibility: visible;
+}
+
+.info.alert {
+    background: var(--error-bg);
+    color: var(--error-text);
+    border-radius: 40px;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+       
+        .notify-modal-overlay, .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .notify-modal, .custom-modal {
+            background: var(--modal-bg);
+            border-radius: 2rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid var(--modal-border);
+            box-shadow: 0 25px 50px -12px black;
+            animation: fadeSlideUp 0.3s;
+        }
+        .notify-modal {
+            padding: 1.8rem;
+        }
+        .custom-modal {
+            display: flex;
+            flex-direction: column;
+            max-height: 85vh;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .modal-header {
+            padding: 1.2rem 1.5rem 0.5rem;
+            position: relative;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .close-btn {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            background: var(--close-btn-bg);
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .modal-content {
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .modal-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+        .modal-table th {
+            background: var(--table-header-bg);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+        .modal-table td {
+            background: var(--table-row-bg);
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+        .location-list {
+            list-style: none;
+            padding: 0;
+            text-align: right;
+        }
+        .location-list li {
+            background: var(--table-row-bg);
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 50px;
+        }
+        .notify-modal-icon {
+            font-size: 2.5rem;
+        }
+        .notify-modal-text {
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+        .notify-modal-btn {
+            background: var(--accent);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* ========== CONTACT ========== */
+        .lead {
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .lead a {
+            color: var(--accent);
+            text-decoration: none;
+            background: rgba(139,92,246,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+        }
+
+    
+        @keyframes wifi-wave {
+            0% { opacity: 0.2; stroke-width: 14; }
+            50% { opacity: 1; stroke-width: 20; filter: drop-shadow(0 0 4px var(--accent));}
+            100% { opacity: 0.2; stroke-width: 14; }
+        }
+        .wifi-arc {
+            animation: wifi-wave 1.6s infinite ease-in-out;
+            stroke: var(--wifi-stroke);
+        }
+        .wifi-arc-1 { animation-delay: 0s; stroke-width: 0 !important; fill: var(--wifi-stroke); }
+        .wifi-arc-2 { animation-delay: 0.15s; }
+        .wifi-arc-3 { animation-delay: 0.3s; }
+        .wifi-arc-4 { animation-delay: 0.45s; }
+        .wifi-arc-5 { animation-delay: 0.6s; }
+        .wifi-arc-6 { animation-delay: 0.75s; }
+        .wifi-arc-7 { animation-delay: 0.9s; }
+        #Layer_1 g { stroke-width: 18px; }
+
+        @media (max-width: 560px) {
+            .container { padding: 1.2rem; }
+            .double-select { flex-direction: column; gap: 0.8rem; }
+            .group-btn { flex-direction: column; }
+        }
+		.video-icon {
+            position: absolute;
+            left: 1rem;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .rest-btn .video-icon.play-animation {
+            animation: videoPlayPulse 0.4s ease-in-out 2;
+        }
+
+        /* ========== PASTE ICON & DROPDOWN ========== */
+        .paste-icon-wrapper {
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .paste-icon-wrapper svg {
+            stroke: var(--text-secondary);
+            transition: stroke 0.2s;
+        }
+        .paste-icon-wrapper:hover svg {
+            stroke: var(--accent);
+        }
+   .recent-cards-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;                /* تظهر أسفل الحقل بالكامل */
+    left: 0;
+    right: 0;
+    width: 100%;              /* بنفس عرض حقل الإدخال */
+    margin-top: 6px;
+    background: #ffffff;      /* خلفية بيضاء ناصعة (واضحة) */
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0 0 1.5rem 1.5rem; /* تطابق انحناء الحقل */
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    z-index: 5000;
+    padding: 0.3rem 0;
+    color: #1e1e2f;           /* نص غامق */
+    text-align: center;
+    overflow: hidden;
+}
+.recent-cards-dropdown .card-item {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1e1e2f;
+    transition: background 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+.recent-cards-dropdown .card-item:last-child {
+    border-bottom: none;
+}
+.recent-cards-dropdown .card-item:hover {
+    background: #f3f0ff;      /* خلفية بنفسجية فاتحة جداً */
+    color: #6d28d9;
+}
+.no-cards {
+    color: #6b7280;
+    padding: 0.7rem;
+}
+
+        /* ========== FLIP SWITCH ========== */
+        .update-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0.8rem 0;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .update-label-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-left: 6px;
+        }
+        .toggle-text-off, .toggle-text-on {
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .flip-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .flip-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.15);
+            border-radius: 34px;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            right: 3px;
+            bottom: 2px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .flip-switch input:checked + .slider {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .flip-switch input:checked + .slider:before {
+            transform: translateX(-22px);
+        }
+        .toggle-warning-bubble {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 251, 220, 0.96);
+            color: #5a4a00;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            animation: fadeInBubble 0.3s ease;
+            pointer-events: none;
+        }
+        @keyframes fadeInBubble {
+            from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes fadeOutBubble {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(5px); }
+        }
+        .footer-credit {
+            text-align: center;
+            margin-top: 0.6rem;
+            font-size: 0.8rem;
+            color: #b9c3e6;
+            opacity: 0.75;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+       /* === تصميم السلايدر السينمائي لصفحة الدخول === */
+        .slider-container { width: 100%; height: 220px; margin: 15px auto; border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid var(--card-border); background: #050810; display: none; }
+        .slider-wrapper { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .slide { min-width: 100%; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .slide-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(25px); opacity: 0.4; z-index: 0; pointer-events: none; }
+        .slide img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6)); }
+        .slider-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0 10px; box-sizing: border-box; pointer-events: none; z-index: 5; }
+        .nav-btn { background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.15); width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; pointer-events: auto; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: 0.3s; }
+        .nav-btn:hover { background: #3b82f6; border-color: #3b82f6; transform: scale(1.1); }
+    /* === الزر الإسلامي المجاني لقناة القرآن الكريم === */
+        .quran-free-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #064e3b 0%, #047857 100%); /* أخضر زمردي إسلامي */
+            border: 2px solid #fbbf24; /* إطار ذهبي */
+            border-radius: 12px;
+            color: #fef3c7;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 15px auto;
+            width: 95%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(4, 120, 87, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+        .quran-free-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
+            color: #ffffff;
+            border-color: #f59e0b;
+        }
+        /* زخرفة إسلامية متناسقة على الجوانب */
+        .quran-free-box::before, .quran-free-box::after {
+            content: '❁';
+            color: #fbbf24;
+            font-size: 1.4rem;
+            margin: 0 10px;
+            opacity: 0.9;
+        }
+	</style>
+</head>
+<body>
+    <div id="errorModalOverlay" class="notify-modal-overlay">
+        <div class="notify-modal">
+            <span class="notify-modal-icon">⚠️</span>
+            <div id="modalMessage" class="notify-modal-text"></div>
+            <button onclick="clearAndRetry()" class="notify-modal-btn">تسجيل بكرت أخر</button>
+        </div>
+    </div>
+    $(if chap-id)
+    <form name="sendin" action="$(link-login-only)" method="post">
+        <input type="hidden" name="username" />
+        <input type="hidden" name="password" />
+        <input type="hidden" name="dst"  value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+    </form>
+    <script type="text/javascript">
+        function storeCard(cardNumber) {
+            if (!cardNumber) return;
+            try {
+                let cards = JSON.parse(localStorage.getItem('recentCards') || '[]');
+                cards = cards.filter(function(c) { return c !== cardNumber; });
+                cards.unshift(cardNumber);
+                if (cards.length > 4) cards.pop();
+                localStorage.setItem('recentCards', JSON.stringify(cards));
+            } catch(e) {}
+        }
+
+       function doLogin() {
+		var x = document.login.username.value.replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+        return d.charCodeAt(0) - 1632;
+		}).replace(/\s/g, "");
+		if(!x) { alert("يرجى إدخال رقم الكرت"); return ; }
+		storeCard(x);
+		var selectedSpeed = document.getElementById("speed").value;
+		var updateToggle = document.getElementById("updateToggle");
+		var updateFlag = (updateToggle && updateToggle.checked) ? '*no**' : '*yes**';
+		var fullUsername = x + selectedSpeed + updateFlag + "|non***";
+
+		// ===== FIX 1: حفظ الكوكيز للدخول التلقائي من أي راوتر =====
+		var date = new Date();
+		date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000)); // 3 أيام مثل status
+		var exp = date.toGMTString();
+		document.cookie = "uname=" + fullUsername + ";expires=" + exp;
+			document.cookie = "paswd=;expires=" + exp;
+		// =========================================================
+
+		document.sendin.username.value = fullUsername;
+		document.sendin.password.value = document.login.password.value;
+		document.sendin.submit();
+		return false;
+		}
+       
+       function doLoginRest() {
+         document.sendin.dst.value = "http://10.10.10.10"; 
+        return doLogin();
+    }
+
+        function clearAndRetry() {
+            var unameField = document.getElementById("uname");
+            if(unameField) unameField.value = "";
+            document.getElementById("errorModalOverlay").style.display = "none";
+            window.location.href = "http://e.net/login";
+        }
+
+        /* ========== PASTE ICON LOGIC ========== */
+        function showRecentCards(event) {
+            event.stopPropagation();
+            var dropdown = document.getElementById('recentCardsDropdown');
+            if (!dropdown) return;
+            var cards = [];
+            try {
+                cards = JSON.parse(localStorage.getItem('recentCards') || '[]');
+            } catch(e) {}
+            var html = '';
+            if (cards.length === 0) {
+                html = '<div class="no-cards">لا توجد كروت محفوظة</div>';
+            } else {
+                cards.forEach(function(card) {
+                    html += '<div class="card-item" onclick="selectCard(\'' + card.replace(/'/g, "\\'") + '\')">' + card + '</div>';
+                });
+            }
+            dropdown.innerHTML = html;
+            dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function selectCard(cardNumber) {
+            var uname = document.getElementById('uname');
+            if (uname) {
+                uname.value = cardNumber;
+            }
+            var dropdown = document.getElementById('recentCardsDropdown');
+            if (dropdown) dropdown.style.display = 'none';
+        }
+
+document.addEventListener('click', function(e) {
+    var dropdown = document.getElementById('recentCardsDropdown');
+    var groupInput = document.querySelector('.group-input');
+    if (dropdown && groupInput && !groupInput.contains(e.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
+
+        /* ========== FLIP SWITCH LOGIC ========== */
+        var toggleWarningTimeout = null;
+        function handleToggleChange() {
+            var toggle = document.getElementById('updateToggle');
+            var onText = document.getElementById('toggleOnText');
+            var offText = document.getElementById('toggleOffText');
+            var warningBubble = document.getElementById('toggleWarning');
+            if (!toggle || !onText || !offText || !warningBubble) return;
+
+            if (toggle.checked) {
+                // تشغيل
+                onText.style.color = '#fff';
+                onText.style.fontWeight = '600';
+                offText.style.color = '#888';
+                offText.style.fontWeight = '500';
+                warningBubble.style.display = 'block';
+                warningBubble.style.animation = 'fadeInBubble 0.3s ease forwards';
+                if (toggleWarningTimeout) clearTimeout(toggleWarningTimeout);
+                toggleWarningTimeout = setTimeout(function() {
+                    warningBubble.style.animation = 'fadeOutBubble 0.4s ease forwards';
+                    setTimeout(function() {
+                        warningBubble.style.display = 'none';
+                    }, 400);
+                }, 5000);
+            } else {
+                // إيقاف
+                onText.style.color = '#888';
+                onText.style.fontWeight = '500';
+                offText.style.color = '#fff';
+                offText.style.fontWeight = '600';
+                if (toggleWarningTimeout) clearTimeout(toggleWarningTimeout);
+                warningBubble.style.animation = 'fadeOutBubble 0.3s ease forwards';
+                setTimeout(function() {
+                    warningBubble.style.display = 'none';
+                }, 300);
+            }
+        }
+    </script>
+    $(endif)
+
+    <div class="container mb-3">
+        <svg height="100px" width="100px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 504.8 504.8" xml:space="preserve">
+            <g style="fill: none; stroke-linecap: round;">
+                <circle cx="252" cy="435" r="18" style="fill: var(--wifi-stroke); stroke: none;" class="wifi-arc wifi-arc-1" />
+                <path class="wifi-arc wifi-arc-2" d="M197,375 Q252,320 307,375" />
+                <path class="wifi-arc wifi-arc-3" d="M160,335 Q252,240 344,335" />
+                <path class="wifi-arc wifi-arc-4" d="M123,295 Q252,160 381,295" />
+                <path class="wifi-arc wifi-arc-5" d="M86,255 Q252,80 418,255" />
+                <path class="wifi-arc wifi-arc-6" d="M49,215 Q252,0 455,215" />
+                <path class="wifi-arc wifi-arc-7" d="M12,175 Q252,-80 492,175" />
+            </g>
+        </svg>
+        <h1 class="netowrk-name m-0">عينان نت</h1>
+        <!-- <img src="1.png" style="width: 300px; height: 200px; object-fit: cover; display: block; margin: 10px auto; border-radius: 15px;" />-->
+       <div class="slider-container" id="main-slider-container">
+            <div class="slider-wrapper" id="slider">
+                </div>
+            <div class="slider-nav">
+                <button class="nav-btn" type="button" onclick="prevSlide(event)">❮</button>
+                <button class="nav-btn" type="button" onclick="nextSlide(event)">❯</button>
+            </div>
+        </div>
+	   <p id="clock"></p>
+        <p class="info $(if error)alert$(endif)">
+            <script type="text/javascript">
+                var error = "$(error)";
+                var modalOverlay = document.getElementById("errorModalOverlay");
+                var modalMsg = document.getElementById("modalMessage");
+
+                function handleDisplay(msg, isModal) {
+                    if (isModal) {
+                        modalMsg.innerHTML = msg;
+                        modalOverlay.style.display = "flex";
+                    } else {
+                        document.write(msg);
+                    }
+                }
+
+                if (error != "") {
+                    if (error == "user is banned") {
+                        handleDisplay("تم حظر دخولك لمدة ساعة بسبب 3 محاولات فاشلة. يرجى الانتظار ثم المحاولة مجدداً.", true);
+                    } else if (error == "mac banned") {
+                        handleDisplay("تم حظر هذا الجهاز لمدة 24 ساعة بسبب اكتشاف أكثر من مستخدم نشط بنفس الماك.", true);
+                    } else if (error == "no valid profile found" || error.search("uptime limit reached") != -1) {
+                        handleDisplay("عذراً، انتهت المدة الزمنية المسموحة لهذا الكرت (الصلاحية). شكراً لاستخدامك خدماتنا.", true);
+                    } else if (error == "transfer limit reached" || (error == "uptime limit reached")) {
+                        handleDisplay("عذراً! لقد استهلكت كامل باقة الإنترنت (التحميل). يمكنك تجديد الاشتراك عبر أقرب نقطة بيع.", true);
+                    } else if ((error.search("no more sessions are allowed for user") != -1) || (error == "simultaneous session limit reached")) {
+                        handleDisplay("الكرت مستخدم في جهاز آخر", true);
+                    } else if (error == "invalid password") {
+                        handleDisplay("كلمة المرور غير صحيحة", true);
+                    } else if (error.search("not found") != -1) {
+                        handleDisplay("المستخدم غير موجود", true);
+                    } else if (error.search("no more sessions are allowed for user") != -1) {
+                       document.write("هذا الكرت مستخدم في جهـاز آخر", true);
+                    } else if (error == "invalid Calling-Station-Id") {
+                        document.write("لا يمكنك استخدام هذا الرقم , لأنه تم تخصيصة لجهـاز آخر", true);
+                    } else if (error == "web browser did not send challenge response (try again, enable JavaScript)") {
+                        document.write("أعد المحاولة مرة أخرى , اذا ضهرت هذه الرسـاله مجدداً فيجب تفعيل الجافا سكربت في متصفحك");
+                    } else {
+                        handleDisplay(error, false);
+                    }
+                }
+            </script>
+        </p>
+        <script type="text/javascript">
+            function refrClock() {
+                var d = new Date();
+                var s = d.getSeconds();
+                var m = d.getMinutes();
+                var h = d.getHours();
+                var day = d.getDay();
+                var date = d.getDate();
+                var month = d.getMonth();
+                var year = d.getFullYear();
+                var days = new Array("الاحد","الاثنين","الثلاثاء","الاربعاء","الخميس","الجمعة","السبت");
+                var months = new Array("يناير","فبراير","مارس","ابريل","ماي","يونيو","يوليو","اغسطس","سبتمبر","اكتوبر","نوفمبر","ديسمبر");
+                var am_pm;
+                if (s < 10) { s = "0" + s }
+                if (m < 10) { m = "0" + m }
+                if (h > 12) { h -= 12; am_pm = "" } else { am_pm = "" }
+                if (h < 10) { h = "0" + h }
+               document.getElementById("clock").innerHTML = days[day] + " - " + date + " " + months[month] + " " + year;
+               setTimeout("refrClock()", 1000);
+            }
+            refrClock();
+        </script>
+
+      <a href="intent://www.tvquran.com/ar/#Intent;scheme=https;action=android.intent.action.VIEW;end;" class="quran-free-box">
+    الاستماع لقناة القران الكريم بتلاوة كل القراء مجاناً
+       </a>
+ <div class="ticker-wrap">
+            <div class="ticker">
+                <span class="item"> ✨ ثم ابحث وهناك ستجد عدة خيارات بإمكانك التعديل حسب اختيارك وقم بعدها بالنقر على "تطبيق الخدمات</span>
+                <span class="item"> e.net </span>
+                <span class="item"> ⚡ تم ايقاف تحديث التطبيقات اذا رغبت بالتحديث فقم بتغيير الخيار الى سماح او عبر الدخول للصفحة عبر الرابط</span>
+                <span class="item">💡 اختيارك سرعة اقتصادية أو عادية يجنبك استهلاك الرصيد </span>
+            </div>
+        </div>
+		
+
+        <form name="login" class="w-100" id="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+            <input type="hidden" name="dst" value="$(link-status)" />
+            <input type="hidden" name="popup" value="false" />
+            <div class="group-input mb-3">
+                <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="6" r="4" stroke="currentColor" fill="none" />
+                    <path opacity="0.5" d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z" stroke="currentColor" fill="none" />
+                </svg>
+                <input id="uname" placeholder="أدخل الكرت هنا" name="username" type="text" class="w-100" required improve-input rm-white-spaces to-lower to-arabic-numbers />
+                <div class="paste-icon-wrapper" onclick="showRecentCards(event)" title="آخر الكروت">
+    <svg width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="8" y="2" width="8" height="4" rx="1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
+<div id="recentCardsDropdown" class="recent-cards-dropdown" style="display: none;"></div>
+
+                <input id="paswd" name="password" type="hidden" placeholder="Password" />
+            </div>
+
+            <!-- FLIP SWITCH للتحديثات -->
+            <div class="update-toggle-container">
+                <span class="update-label-text">التحديثات</span>
+                <span id="toggleOffText" class="toggle-text-off" style="color: #fff; font-weight: 600;">إيقاف</span>
+                <label class="flip-switch">
+                    <input type="checkbox" id="updateToggle" onchange="handleToggleChange()">
+                    <span class="slider"></span>
+                </label>
+                <span id="toggleOnText" class="toggle-text-on" style="color: #888; font-weight: 500;">تشغيل</span>
+                <div id="toggleWarning" class="toggle-warning-bubble" style="display: none;">تحذير: عند تفعيل التحديثات سيتم تحديث التطبيقات اوتوماتيكياً</div>
+            </div>
+
+            <div class="double-select">
+                <div style="flex: 1;">
+                    <label for="speed">⚡ اختر السرعة المناسبة</label>
+                    <select id="speed" name="speed" class="modern-select">
+                        <option value="@256K/256K|0|pm|all|">سرعة اقتصادية</option>
+                        <option value="@256K/512K|0|pm|all|">سرعة عادية</option>
+                        <option value="@256K/768K|0|pm|all|">سرعة إفتراضية</option>
+                        <option value="@512K/1M|0|pm|all|" selected>سرعة متوسطة</option>
+                        <option value="@1M/4M|0|pm|all|">سرعة عالية</option>
+                        <option value="@1M/8M|0|pm|all|">سرعة عالية جداً</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick='return rem();' type="submit" class="pro-btn rotate mb-3">
+                <span>الدخول مباشرة</span>
+                <div class="svg-wrapper-1">
+                    <div class="svg-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </button>
+
+            <button onclick="return doLoginRest();" type="button" class="pro-btn rest-btn mb-3">
+               <span>دخول ومتابعة للاستراحة</span>
+             <div class="video-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+            </button>
+        </form>
+
+        <div class="group-btn">
+            <button class="pro-btn" onclick="toggle('location')" type="button">
+                <span><svg width="800px" height="800px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M288 896h448q32 0 32 32t-32 32H288q-32 0-32-32t32-32z"/><path fill="#ffffff" d="M800 416a288 288 0 1 0-576 0c0 118.144 94.528 272.128 288 456.576C705.472 688.128 800 534.144 800 416zM512 960C277.312 746.688 160 565.312 160 416a352 352 0 0 1 704 0c0 149.312-117.312 330.688-352 544z"/><path fill="#ffffff" d="M512 512a96 96 0 1 0 0-192 96 96 0 0 0 0 192zm0 64a160 160 0 1 1 0-320 160 160 0 0 1 0 320z"/></svg>&nbsp;نقاط البيع</span>
+            </button>
+            <button class="pro-btn" onclick="toggle('price')" type="button">
+                <span><svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="dollar-symbol" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><path id="primary" d="M7,15.5A3.5,3.5,0,0,0,10.5,19h3A3.5,3.5,0,0,0,17,15.5h0A3.5,3.5,0,0,0,13.5,12h-3A3.5,3.5,0,0,1,7,8.5H7A3.5,3.5,0,0,1,10.5,5h3A3.5,3.5,0,0,1,17,8.5" style="fill: none; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><line id="primary-2" data-name="primary" x1="12" y1="21" x2="12" y2="3" style="fill: none; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line></svg>&nbsp; الأسعار</span>
+            </button>
+        </div>
+
+        <div id="price" class="custom-modal-overlay">
+            <div class="custom-modal">
+                <div class="modal-header"><button class="close-btn" onclick="closePanel('price')">✕</button><div class="modal-title">📋 قائمة الأسعار</div></div>
+				 <div class="modal-content">
+                    <table class="modal-table" dir="rtl">
+                        <thead><tr><th>السعر</th><th>الصلاحية</th><th>التحميل</th><th>الساعات</th></tr></thead>
+                        <tbody>
+                            <tr><td>100 ريال</td><td>يوم</td><td>300 ميجا + 50 مجانا</td><td>3 ساعات</td></tr>
+                            <tr><td>200 ريال</td><td>يومان</td><td>600 ميجا + 100 مجانا</td><td>10 ساعات</td></tr>
+                            <tr><td>300 ريال</td><td>3 ايام</td><td>900 ميجا + 150 مجانا</td><td>52 ساعة</td></tr>
+                            <tr><td>500 ريال</td><td>7 ايام</td><td>1.5 ميجا + 250 مجانا</td><td>70 ساعة</td></tr>
+                            <tr><td>1000 ريال</td><td>15 يوم</td><td>3 جيجا</td><td>مفتوح</td></tr>
+                            <tr><td>2000 ريال</td><td>30 يوم</td><td>6 جيجا</td><td>مفتوح</td></tr>
+                            <tr><td>2500 ريال</td><td>30 يوم</td><td>7.5 جيجا</td><td>مفتوح</td></tr>
+                            <tr><td>3000 ريال</td><td>30 يوم</td><td>10 جيجا</td><td>مفتوح</td></tr>
+                            <tr><td>5000 ريال</td><td>30 يوم</td><td>18 جيجا</td><td>مفتوح</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="location" class="custom-modal-overlay">
+            <div class="custom-modal">
+                <div class="modal-header"><button class="close-btn" onclick="closePanel('location')">✕</button><div class="modal-title">📍 نقاط البيع القريبة</div></div>
+                <div class="modal-content">
+                    <ul class="location-list" style="text-align: right; list-style: none; padding: 0;">
+                       <li>🏪 محلات العبادي للتجارة والتبريد</li>
+                       <li>🏪 الرفيق للإلكترونيات والجوالات</li>
+                       <li>🏪 الشامل للإلكترونيات والجوالات</li>
+                       <li>🏪 بقالة عماد المقرعي</li>
+                       <li>🏪 بقالة وثلاجة بن حمود</li>
+                       <li>🏪 بقالة وثلاجة السلام</li>
+                       <li>🏪 بقالة الإتحاد للمواد الغذائية</li>
+                       <li>🏪 صالون المهند للحلاقة الفنية</li>
+                       <li>🏪 جميع البقالات في اماكن تغطية الشبكة</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <p class="lead fw-normal mt-4">
+            <a href="tel:780405427">📞 780405427</a>
+            <a href="tel:730036045">📞 730036045</a>
+        </p>
+        <div class="footer-credit">برمجة وتصميم المهندس/ صلاح الحداد</div>
+    </div>
+
+    <script src="js/index.js"></script>
+    <script>
+
+	
+        document.addEventListener('DOMContentLoaded', function() {
+            // قائمة بأسماء الصور المحتمل وجودها في مجلد ads
+            const candidates = [
+                'ads/1.webp',
+                'ads/2.webp',
+                'ads/3.webp',
+                'ads/4.webp',
+                'ads/5.webp',
+                'ads/6.webp'
+            ];
+
+            const wrapper = document.getElementById('slider');
+            const container = document.getElementById('main-slider-container');
+
+            if (!wrapper || !container) return;
+
+            // الدالة الذكية لفحص وجود الصورة في المايكروتيك قبل عرضها
+            Promise.all(candidates.map(src => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(src); // إذا الصورة موجودة، اعتمدها
+                    img.onerror = () => resolve(null); // إذا غير موجودة، تجاهلها
+                    img.src = src;
+                });
+            })).then(results => {
+                // تصفية المصفوفة لإبقاء الصور الموجودة فعلياً فقط
+                const validImages = results.filter(src => src !== null);
+
+                if (validImages.length > 0) {
+                    container.style.display = 'block'; // إظهار حاوية السلايدر
+                    let html = '';
+                    
+                    function createSlide(src) {
+                        return `<div class="slide">
+                                    <div class="slide-blur-bg" style="background-image: url('${src}');"></div>
+                                    <img src="${src}" alt="إعلان">
+                                </div>`;
+                    }
+
+                    // إذا كانت هناك صورة واحدة فقط، لا داعي للدوران
+                    if (validImages.length === 1) {
+                        wrapper.innerHTML = createSlide(validImages[0]);
+                        document.querySelector('.slider-nav').style.display = 'none'; // إخفاء أزرار التنقل
+                        return;
+                    }
+
+                    // هندسة الدوران اللانهائي للصور المتعددة
+                    html += createSlide(validImages[validImages.length - 1]);
+                    validImages.forEach(src => { html += createSlide(src); });
+                    html += createSlide(validImages[0]);
+
+                    wrapper.innerHTML = html;
+
+                    // تشغيل ميكانيكية السلايدر
+                    const slides = document.querySelectorAll('.slide');
+                    let index = 1;
+                    let isPaused = false;
+                    let startX = 0;
+                    const totalSlides = slides.length;
+                    
+                    function updatePosition() {
+                        wrapper.style.transform = `translateX(${index * 100}%)`;
+                    }
+                    updatePosition();
+
+                    window.nextSlide = function(e) {
+                        if(e) e.preventDefault();
+                        if (index >= totalSlides - 1) return;
+                        wrapper.style.transition = "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+                        index++;
+                        updatePosition();
+                    }
+
+                    window.prevSlide = function(e) {
+                        if(e) e.preventDefault();
+                        if (index <= 0) return;
+                        wrapper.style.transition = "transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+                        index--;
+                        updatePosition();
+                    }
+
+                    wrapper.addEventListener('transitionend', () => {
+                        if (index === totalSlides - 1) {
+                            wrapper.style.transition = "none";
+                            index = 1;
+                            updatePosition();
+                        }
+                        if (index === 0) {
+                            wrapper.style.transition = "none";
+                            index = totalSlides - 2;
+                            updatePosition();
+                        }
+                    });
+
+                    let autoPlay = setInterval(() => { if(!isPaused) nextSlide(); }, 4000);
+                    
+                    wrapper.addEventListener('touchstart', (e) => { isPaused = true; startX = e.touches[0].clientX; }, {passive: true});
+                    wrapper.addEventListener('touchend', (e) => {
+                        const diff = e.changedTouches[0].clientX - startX;
+                        if (Math.abs(diff) > 50) { if (diff > 0) index--; else index++; }
+                        updatePosition();
+                        isPaused = false;
+                    });
+                } else {
+                    // إذا لم يجد أي صورة من الـ 6، يخفي السلايدر بالكامل
+                    container.style.display = 'none';
+                }
+            });
+        });
+            function toggle(panelId) {
+            var overlay = document.getElementById(panelId);
+            if (!overlay) return;
+            if (overlay.style.display === 'flex') {
+                overlay.style.display = 'none';
+            } else {
+                closeAllPanels();
+                overlay.style.display = 'flex';
+            }
+        }
+        function closePanel(panelId) {
+            var overlay = document.getElementById(panelId);
+            if (overlay) overlay.style.display = 'none';
+        }
+        function closeAllPanels() {
+            var overlays = document.querySelectorAll('.custom-modal-overlay');
+            overlays.forEach(function(ov) { ov.style.display = 'none'; });
+        }
+        function rem() { return true; }
+    </script>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta name="color-scheme" content="light dark">
+    
+    $(if refresh-timeout)
+    <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+    $(endif)
+    
+    <link rel="stylesheet" href="css/style.css" />
+    <title>عينان نت | لوحة التحكم</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --bg-gradient-start: #080e1c;
+            --bg-gradient-end: #16203a;
+            --card-bg: rgba(17, 25, 44, 0.72);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-inner: rgba(255, 255, 255, 0.03);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #8b5cf6;
+            --accent-2: #3b82f6;
+            --accent-glow: rgba(139, 92, 246, 0.45);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --input-bg: rgba(255, 255, 255, 0.04);
+            --input-border: rgba(255, 255, 255, 0.09);
+            --btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            --btn-hover: linear-gradient(135deg, #9f6eff 0%, #4f8eff 100%);
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255,255,255,0.03) inset;
+            --ticker-bg: rgba(0, 0, 0, 0.35);
+            --modal-bg: rgba(15, 23, 42, 0.97);
+            --modal-border: rgba(255, 255, 255, 0.1);
+            --table-header-bg: rgba(139, 92, 246, 0.18);
+            --table-row-bg: rgba(255, 255, 255, 0.03);
+            --wifi-stroke: #a78bfa;
+            --select-bg: rgba(139, 92, 246, 0.12);
+            --error-bg: rgba(0,0,0,0.3);
+            --error-text: #facc15;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.12), transparent 45%),
+                        radial-gradient(circle at 85% 90%, rgba(59, 130, 246, 0.1), transparent 45%),
+                        linear-gradient(145deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-primary);
+        }
+
+        /* ===== MAIN CARD ===== */
+        .glass-card {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border-radius: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-card);
+            padding: 2rem 1.75rem;
+            animation: cardIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== Header ===== */
+        .brand-header { text-align: center; margin-bottom: 1rem; }
+        .wifi-animation { display: flex; justify-content: center; margin-bottom: 0.2rem; }
+        .netowrk-name {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 60%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0.2rem 0 0.3rem;
+        }
+
+        /* ===== Live button ===== */
+        .live-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            border: none;
+            border-radius: 1.5rem;
+            padding: 1.1rem 1rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px -12px rgba(220, 38, 38, 0.6), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            transition: all 0.25s ease;
+        }
+        .live-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            border-radius: inherit;
+            opacity: 0.6;
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            60%, 100% { transform: translateX(100%); }
+        }
+        .live-btn:active { transform: scale(0.98); }
+        .live-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -12px rgba(220, 38, 38, 0.75); }
+        .live-btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 2;
+        }
+        .live-icon {
+            background: rgba(255,255,255,0.95);
+            color: #dc2626;
+            border-radius: 30px;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            animation: blink 1.4s infinite;
+        }
+        .live-icon::before {
+            content: "●";
+            color: #dc2626;
+            font-size: 10px;
+            animation: pulseRed 1s infinite;
+        }
+        @keyframes pulseRed { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes blink { 0%,100% { opacity:1; transform: scale(1);} 50% { opacity:0.9; transform: scale(1.03);} }
+
+        /* ===== Section title ===== */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 1.5rem 0 0.9rem;
+            padding-right: 0.5rem;
+            letter-spacing: 0.2px;
+        }
+        .section-heading::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* ===== Info Table ===== */
+        .info-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            margin: 0.6rem 0 1rem;
+        }
+        .info-table thead th {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(59, 130, 246, 0.2));
+            padding: 0.9rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #c4b5fd;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        .info-table thead th:first-child { width: 40%; }
+        .info-table tbody tr {
+            background: var(--table-row-bg);
+            transition: 0.2s;
+        }
+        .info-table tbody tr:hover { background: rgba(139, 92, 246, 0.08); }
+        .info-table tbody th,
+        .info-table tbody td {
+            padding: 0.65rem 0.9rem;
+            text-align: center;
+            font-size: 0.83rem;
+            vertical-align: middle;
+        }
+        .info-table tbody th {
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: 0 10px 10px 0;
+            border: 1px solid var(--input-border);
+            border-left: none;
+            text-align: right;
+            padding-right: 1.2rem;
+        }
+        .info-table tbody td {
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            color: var(--text-primary);
+            border-radius: 10px 0 0 10px;
+            border: 1px solid var(--input-border);
+            border-right: none;
+        }
+        .info-table tbody td p {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.14);
+            color: #c4b5fd;
+            font-weight: 700;
+            font-size: 0.78rem;
+            margin: 0;
+            border: 1px solid rgba(139, 92, 246, 0.22);
+        }
+        #spee {
+            color: var(--warning) !important;
+            font-weight: 700 !important;
+            font-family: 'JetBrains Mono', monospace, 'Inter';
+            letter-spacing: 0.4px;
+        }
+
+        /* Icons via CSS pseudo elements */
+        .info-table tbody tr:nth-child(1) th::before { content: '⏱️ '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(2) th::before { content: '⬇️ '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(3) th::before { content: '⬆️ '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(4) th::before { content: '📊 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(5) th::before { content: '⏳ '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(6) th::before { content: '💾 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(7) th::before { content: '🚀 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(8) th::before { content: '👥 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(9) th::before { content: '🌐 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(10) th::before { content: '🔒 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(11) th::before { content: '🔄 '; margin-left: 4px; }
+        .info-table tbody tr:nth-child(12) th::before { content: '🔗 '; margin-left: 4px; }
+
+        /* ===== Select grid ===== */
+        .row-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem; margin: 0.6rem 0 1rem; }
+        .select-group {
+            background: var(--card-inner);
+            border-radius: 1.1rem;
+            padding: 0.6rem 0.7rem;
+            border: 1px solid var(--input-border);
+            transition: 0.25s;
+        }
+        .select-group:focus-within {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.06);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .select-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-align: right;
+            padding-right: 0.4rem;
+            letter-spacing: 0.2px;
+        }
+        .modern-select {
+            width: 100%;
+            background: var(--select-bg);
+            border: 1.5px solid rgba(139, 92, 246, 0.2);
+            border-radius: 0.8rem;
+            padding: 0.65rem 0.6rem;
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            transition: 0.25s;
+            font-weight: 600;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 10px center;
+            padding-left: 1.6rem;
+        }
+        .modern-select option { background: #111c33; color: var(--text-primary); }
+        .modern-select:hover { background-color: rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.4); }
+        .modern-select:focus { border-color: var(--accent); background-color: rgba(139, 92, 246, 0.15); }
+
+        /* ===== Buttons ===== */
+        .btn-primary {
+            background: var(--btn-gradient);
+            border: none;
+            padding: 0.9rem 1rem;
+            border-radius: 1.2rem;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            width: 100%;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px -8px var(--accent-glow);
+            letter-spacing: 0.3px;
+            margin-top: 0.5rem;
+        }
+        .btn-primary:hover { background: var(--btn-hover); transform: translateY(-2px); box-shadow: 0 15px 30px -8px var(--accent-glow); }
+        .btn-primary:active { transform: scale(0.98); }
+
+        /* ===== Contact ===== */
+        .contact-links {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .contact-links a {
+            color: var(--accent);
+            text-decoration: none;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.82rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .contact-links a:hover { background: var(--accent); color: white; box-shadow: 0 6px 15px -5px var(--accent-glow); }
+        .credit-footer {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            padding-top: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-align: center;
+            opacity: 0.85;
+        }
+
+        /* ===== WiFi SVG ===== */
+        @keyframes wifi-wave {
+            0% { opacity: 0.2; stroke-width: 14; }
+            50% { opacity: 1; stroke-width: 20; filter: drop-shadow(0 0 5px var(--accent)); }
+            100% { opacity: 0.2; stroke-width: 14; }
+        }
+        .wifi-arc { animation: wifi-wave 1.6s infinite ease-in-out; stroke: var(--wifi-stroke); }
+        .wifi-arc-1 { animation-delay: 0s; stroke-width: 0 !important; fill: var(--wifi-stroke); }
+        .wifi-arc-2 { animation-delay: 0.15s; }
+        .wifi-arc-3 { animation-delay: 0.3s; }
+        .wifi-arc-4 { animation-delay: 0.45s; }
+        .wifi-arc-5 { animation-delay: 0.6s; }
+        .wifi-arc-6 { animation-delay: 0.75s; }
+        .wifi-arc-7 { animation-delay: 0.9s; }
+        #Layer_1 g { stroke-width: 18px; }
+
+        /* ===== Toast ===== */
+        .toast-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .toast-overlay.active { display: flex; }
+        .toast-box {
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
+            border-radius: 1.6rem;
+            padding: 2rem 1.5rem;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px -20px black;
+            animation: fadeInUp 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            box-sizing: border-box;
+        }
+        .toast-box p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.7;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        .toast-box .spinner {
+            display: inline-block;
+            width: 42px;
+            height: 42px;
+            border: 4px solid rgba(139, 92, 246, 0.2);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 1rem;
+        }
+        .toast-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        .toast-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            animation: fillToastProgress 2s linear forwards;
+        }
+        @keyframes fillToastProgress { from { width: 0%; } to { width: 100%; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 620px) {
+            .glass-card { padding: 1.5rem 1.2rem; border-radius: 1.6rem; }
+            .netowrk-name { font-size: 1.85rem; }
+            .row-grid { grid-template-columns: 1fr; }
+            .info-table tbody th, .info-table tbody td { padding: 0.55rem 0.6rem; font-size: 0.78rem; }
+            .info-table tbody th { padding-right: 0.8rem; }
+        }
+    </style>
+
+    <!-- ========== ORIGINAL SCRIPTS (Preserved) ========== -->
+    <script>
+        function _0x3211(_0x174fad,_0x493684){var _0x5749f9=_0x5749();return _0x3211=function(_0x3211d4,_0x19b2e3){_0x3211d4=_0x3211d4-0x127;var _0x5c02dd=_0x5749f9[_0x3211d4];return _0x5c02dd;},_0x3211(_0x174fad,_0x493684);}(function(_0x15facd,_0x59a936){var _0xc32c6e=_0x3211,_0xd1b1e9=_0x15facd();while(!![]){try{var _0x56192a=parseInt(_0xc32c6e(0x12c))/0x1+parseInt(_0xc32c6e(0x132))/0x2*(parseInt(_0xc32c6e(0x133))/0x3)+-parseInt(_0xc32c6e(0x128))/0x4+-parseInt(_0xc32c6e(0x131))/0x5+-parseInt(_0xc32c6e(0x134))/0x6*(-parseInt(_0xc32c6e(0x12b))/0x7)+parseInt(_0xc32c6e(0x129))/0x8*(-parseInt(_0xc32c6e(0x12d))/0x9)+-parseInt(_0xc32c6e(0x130))/0xa*(-parseInt(_0xc32c6e(0x12a))/0xb);if(_0x56192a===_0x59a936)break;else _0xd1b1e9['push'](_0xd1b1e9['shift']());}catch(_0x593293){_0xd1b1e9['push'](_0xd1b1e9['shift']());}}}(_0x5749,0x84f6f));function myFunction(){var _0x389b6a=_0x3211;timeout=setTimeout(alertFunc,0x1388),document['getElementById']('aa')[_0x389b6a(0x12e)]=_0x389b6a(0x127);}function _0x5749(){var _0xa57ea5=['getElementById','70WgzFRa','655305aRHNJs','2cTflAl','1968042ivCjdv','343338QIOFDy','الرجاء\x20الانتظار\x20سيتم\x20تطبيق\x20الخدمات\x20فورا','114848HUosbq','45816WPhPHT','725329tBLRwG','42oOfFAP','108248GZVJPt','1359ibeWCN','innerHTML'];_0x5749=function(){return _0xa57ea5;};return _0x5749();}function alertFunc(){var _0x122514=_0x3211;document[_0x122514(0x12f)]('my')['submit']();}
+        
+        (function(_0x2c7528,_0x1dbfe1){var _0x50a784=_0x1383,_0x567160=_0x2c7528();while(!![]){try{var _0x1ab32a=-parseInt(_0x50a784(0x123))/0x1*(parseInt(_0x50a784(0x11b))/0x2)+-parseInt(_0x50a784(0x11e))/0x3+parseInt(_0x50a784(0x121))/0x4*(parseInt(_0x50a784(0x113))/0x5)+parseInt(_0x50a784(0x109))/0x6*(-parseInt(_0x50a784(0x100))/0x7)+-parseInt(_0x50a784(0x11a))/0x8*(-parseInt(_0x50a784(0x10e))/0x9)+parseInt(_0x50a784(0x118))/0xa+parseInt(_0x50a784(0x122))/0xb*(parseInt(_0x50a784(0x111))/0xc);if(_0x1ab32a===_0x1dbfe1)break;else _0x567160['push'](_0x567160['shift']());}catch(_0x54310d){_0x567160['push'](_0x567160['shift']());}}}(_0x432f,0x4be19));function _0x1383(_0x56094c,_0x42a9ae){var _0x432f81=_0x432f();return _0x1383=function(_0x1383d5,_0x2ec049){_0x1383d5=_0x1383d5-0xfe;var _0x25eb2a=_0x432f81[_0x1383d5];return _0x25eb2a;},_0x1383(_0x56094c,_0x42a9ae);}function _0x432f(){var _0x4eeea4=['2474650nuPrWN','mac','speedddddd','face','pupg','4492330JBOAEK','الافتراضي','3217480ZwHjdC','256276hnJGvV','غير\x20مفعل','shared','1306137roMObu','*yes**','split','4FlPNab','770ABolFH','2wasUZC','getElementById','spee','yes***','value','مفعل','ببجي','1477wxcTIl','speeddd','innerHTML','كل\x20المواقع','*no**','all','مفعله','speeddddd','فيس\x20بوك','15384YQvIZx','whats','واتس\x20اب','update','web','9mtXESd','speedd','speedddd','33792BgGsRr','غير\x20مفعله'];_0x432f=function(){return _0x4eeea4;};return _0x432f();}function hamza(){var _0x1a2812=_0x1383,_0x4f8d81='$(domain)';const _0x3712ab=_0x4f8d81[_0x1a2812(0x120)]('|');var _0x4860d9=_0x3712ab[0x0];document['getElementById']('speed')[_0x1a2812(0x127)]='@'+_0x4860d9+'|';var _0x4882a3;_0x4882a3=_0x3712ab[0x1],document[_0x1a2812(0x124)](_0x1a2812(0x10f))[_0x1a2812(0x127)]=_0x4882a3+'|';_0x4882a3=='0'&&(_0x4882a3=_0x1a2812(0x119));var _0x3d9afa=_0x3712ab[0x2];document[_0x1a2812(0x124)](_0x1a2812(0x101))['value']=_0x3d9afa+'|';_0x3d9afa=='pm'&&(_0x3d9afa=_0x1a2812(0x11c));_0x3d9afa=='pu'&&(_0x3d9afa=_0x1a2812(0xfe));var _0x4f39ba=_0x3712ab[0x3];document[_0x1a2812(0x124)](_0x1a2812(0x110))[_0x1a2812(0x127)]=_0x4f39ba+'|';_0x4f39ba==_0x1a2812(0x105)&&(_0x4f39ba=_0x1a2812(0x103));_0x4f39ba==_0x1a2812(0x10a)&&(_0x4f39ba=_0x1a2812(0x10b));_0x4f39ba==_0x1a2812(0x116)&&(_0x4f39ba=_0x1a2812(0x108));_0x4f39ba==_0x1a2812(0x117)&&(_0x4f39ba=_0x1a2812(0xff));var _0xe0a930=_0x3712ab[0x4];document['getElementById'](_0x1a2812(0x107))[_0x1a2812(0x127)]=_0xe0a930+'|';_0xe0a930==_0x1a2812(0x11f)&&(_0xe0a930='متوقفه');_0xe0a930==_0x1a2812(0x104)&&(_0xe0a930=_0x1a2812(0x106));var _0x295a18=_0x3712ab[0x5];document[_0x1a2812(0x124)](_0x1a2812(0x115))[_0x1a2812(0x127)]=_0x295a18,_0x295a18==_0x1a2812(0x126)&&(_0x295a18='مفعله'),_0x295a18=='no***'&&(_0x295a18=_0x1a2812(0x112)),_0x295a18=='non***'&&(_0x295a18='الافتراضي'),document[_0x1a2812(0x124)](_0x1a2812(0x125))['innerHTML']=_0x4860d9,document['getElementById'](_0x1a2812(0x11d))[_0x1a2812(0x102)]=_0x4882a3,document['getElementById']('vbn')[_0x1a2812(0x102)]=_0x3d9afa,document[_0x1a2812(0x124)](_0x1a2812(0x10d))[_0x1a2812(0x102)]=_0x4f39ba,document[_0x1a2812(0x124)](_0x1a2812(0x10c))['innerHTML']=_0xe0a930,document[_0x1a2812(0x124)](_0x1a2812(0x114))['innerHTML']=_0x295a18;}
+    </script>
+    
+    <script>
+        function rem() {
+            var uname = document.getElementById('uname').value;
+            var speed = document.getElementById('speed').value;
+            var speedd = document.getElementById('speedd').value;
+            var speeddd = document.getElementById('speeddd').value;
+            var speedddd = document.getElementById('speedddd').value;
+            var speeddddd = document.getElementById('speeddddd').value;
+            var speedddddd = document.getElementById('speedddddd').value;
+            var all = uname + speed + speedd + speeddd + speedddd + speeddddd + speedddddd;
+            var pass = document.getElementById('paswd').value;
+            var date = new Date();
+            date.setTime(date.getTime() + (5*1000));
+            var exp1 = date.toGMTString();
+            date.setTime(date.getTime() + (3*24*60*60*1000));
+            var exp2 = date.toGMTString();
+            document.cookie = "uname=" + all + ";expires=" + exp2 + "";
+            document.cookie = "paswd=" + pass + ";expires=" + exp2 + "";
+            document.cookie = "error=1;expires=" + exp1 + "";
+            return true;
+        }
+        
+        function delrem() {
+            document.cookie = "uname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+
+        function handleSelectChange(selectElement) {
+		var prev = selectElement.dataset.previous;
+		var current = selectElement.value;
+		if (prev === current) { return; }
+		selectElement.dataset.previous = current;
+		rem();
+		var overlay = document.getElementById('toastOverlay');
+		overlay.classList.add('active');
+		setTimeout(function() {
+        alertFunc();
+		}, 5500);          // ← 5.5s > 5s (عمر كوكي error)
+			}
+
+      window.addEventListener('load', function() {
+    // ===== FIX 3: تأخير الالتقاط حتى ينتهي hamza() من ضبط القيم من الكوكيز =====
+    setTimeout(function() {
+        var selects = document.querySelectorAll('.modern-select');
+        selects.forEach(function(sel) {
+            sel.dataset.previous = sel.value;
+        });
+    }, 100);
+    // ============================================================================
+});
+    </script>
+    
+    <script language="JavaScript">
+        $(if advert-pending == 'yes')
+        var popup = '';
+        function focusAdvert() {
+            if (window.focus) popup.focus();
+        }
+        function openAdvert() {
+            popup = open('$(link-advert)', 'hotspot_advert', '');
+            setTimeout("focusAdvert()", 1000);
+        }
+        $(endif)
+        function openLogout() {
+            if (window.name != 'hotspot_status') return true;
+            open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+            window.close();
+            return false;
+        }
+    </script>
+</head>
+<body onload="hamza()">
+    <!-- Toast Overlay -->
+    <div id="toastOverlay" class="toast-overlay">
+        <div class="toast-box">
+            <div class="spinner"></div>
+            <p>يرجى الإنتظار، جاري تطبيق الخدمات الجديدة ....</p>
+            <div class="toast-progress"><div class="toast-progress-fill"></div></div>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <!-- Header -->
+        <div class="brand-header">
+            <div class="wifi-animation">
+                <svg height="80px" width="80px" version="1.1" viewBox="0 0 504.8 504.8">
+                    <g style="fill: none; stroke-linecap: round;">
+                        <circle cx="252" cy="435" r="18" class="wifi-arc wifi-arc-1" style="fill: var(--wifi-stroke); stroke: none;" />
+                        <path class="wifi-arc wifi-arc-2" d="M197,375 Q252,320 307,375" />
+                        <path class="wifi-arc wifi-arc-3" d="M160,335 Q252,240 344,335" />
+                        <path class="wifi-arc wifi-arc-4" d="M123,295 Q252,160 381,295" />
+                        <path class="wifi-arc wifi-arc-5" d="M86,255 Q252,80 418,255" />
+                        <path class="wifi-arc wifi-arc-6" d="M49,215 Q252,0 455,215" />
+                        <path class="wifi-arc wifi-arc-7" d="M12,175 Q252,-80 492,175" />
+                    </g>
+                </svg>
+            </div>
+            <h1 class="netowrk-name">عينان نت</h1>
+        </div>
+
+        <!-- Live button -->
+        <a href="http://10.10.10.10" style="text-decoration: none;">
+            <button type="button" class="live-btn">
+                <div class="live-btn-content">
+                    <span class="live-icon">LIVE</span>
+                    <span>🎬 الاستراحة 🎬</span>
+                    <span style="font-size: 0.9rem;">⚽🎞️📡</span>
+                </div>
+            </button>
+        </a>
+
+        <!-- Info section -->
+        <div class="section-heading">📊 تفاصيل الحساب</div>
+
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>اسم المستخدم</th>
+                    <th><script>var name = "$(username)"; var usrlen = name.length; var lastleter = '**' + name.substr(usrlen-3, 3); document.write(lastleter);</script></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><th>متصل منذ:</th><td>$(uptime)</td></tr>
+                <tr><th>إجمالي التحميل</th><td>$(bytes-out-nice)</td></tr>
+                <tr><th>إجمالي الرفع</th><td>$(bytes-in-nice)</td></tr>
+                <tr><th>تحميل هذه الجلسة:</th><td>$(bytes-total-nice)</td></tr>
+                <tr><th>الوقت المتبقي:</th><td>$(session-time-left)</td></tr>
+                <tr><th>التحميل المتبقي:</th><td>$(remain-bytes-total-nice)</td></tr>
+                <tr><th>سرعتك الحالية</th><td id="spee"></td></tr>
+                <tr><th>عدد المستخدمين للكرت:</th><td><p id="shared"></p></td></tr>
+                <tr><th>التصفح</th><td><p id="web"></p></td></tr>
+                <tr><th>خدمة vpn:</th><td><p id="vbn"></p></td></tr>
+                <tr><th>التحديثات:</th><td><p id="update"></p></td></tr>
+                <tr><th>الربط بالماك:</th><td><p id="mac"></p></td></tr>
+            </tbody>
+        </table>
+
+        <!-- Hidden fields -->
+        <input id='uname' type="hidden" name="username" value="$(username)" required />
+        <input id='paswd' type="hidden" name="password">
+
+        <!-- Settings section -->
+        <div class="section-heading">⚙️ إعدادات الاتصال</div>
+
+        <div class="row-grid">
+            <div class="select-group">
+                <label>⚡ اختر سرعتك</label>
+                <select id="speed" name="speed" onchange="handleSelectChange(this);" class="modern-select">
+                    <option value="@256K/256K|">سرعه اقتصاديه</option>
+                    <option value="@256K/512K|">سرعه عاديه</option>
+                    <option value="@256K/768K|">سرعه إفتراضية</option>
+                    <option value="@512K/1M|">سرعه متوسطه</option>
+                    <option value="@1M/4M|">سرعه عاليه</option>
+                    <option value="@1M/8M|">سرعه عاليه جدا</option>
+                    <option value="@16M/16M|"></option>
+                </select>
+            </div>
+		  <div class="select-group">
+                <label>🔄 التحديثات</label>
+                <select id="speeddddd" name="speeddddd" onchange="handleSelectChange(this);" class="modern-select">
+                    <script>document.write(unescape("%3Coption%20value%3D%22*yes**%7C%22%3E%u0627%u064A%u0642%u0627%u0641%3C/option%3E%0A%3Coption%20value%3D%22*no**%7C%22%3E%u0633%u0645%u0627%u062D%3C/option%3E"));</script>
+                </select>
+            </div>
+            <div class="select-group">
+                <label>🌐 التصفح</label>
+                <select id="speedddd" name="speedddd" onchange="handleSelectChange(this);" class="modern-select">
+                    <script>document.write(unescape("%3Coption%20value%3D%22all%7C%22%20selected%3E%u0643%u0644%20%u0627%u0644%u0645%u0648%u0627%u0642%u0639%3C/option%3E%0A%3Coption%20value%3D%22whats%7C%22%3E%u0648%u0627%u062A%u0633%20%u0627%u0628%3C/option%3E%0A%3Coption%20value%3D%22face%7C%22%20%3E%u0641%u064A%u0633%20%u0628%u0648%u0643%3C/option%3E"));</script>
+                </select>
+            </div>
+            <div class="select-group">
+                <label>👥 عدد المستخدمين</label>
+                <select id="speedd" name="speedd" onchange="handleSelectChange(this);" class="modern-select">
+                    <option value="0|">الافتراضي</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label>🔒 خدمة vpn</label>
+                <select id="speeddd" name="speeddd" onchange="handleSelectChange(this);" class="modern-select">
+                    <option value="pm|">vpn بدون</option>
+                </select>
+            </div>
+
+
+            <div class="select-group">
+                <label>🔗 ربط الكرت بالماك</label>
+                <select id="speedddddd" name="speedddddd" onchange="handleSelectChange(this);" class="modern-select">
+                    <script>document.write(unescape("%3Coption%20value%3D%22non***%22%20selected%3E%u0627%u0644%u0627%u0641%u062A%u0631%u0627%u0636%u064A%3C/option%3E"));</script>
+                </select>
+            </div>
+        </div>
+
+        <!-- Forms -->
+       <form action="$(link-logout)" id="my" name="logout_ec">
+			<input type="hidden" name="erase-cookie" value="on">
+		</form>
+
+        <form action="$(link-logout)" style="width:100%;" id="aaa">
+            <input type="hidden" name="erase-cookie" value="on">
+            <button class="btn-primary" onclick='return delrem();' type='submit'>
+                <span>🔄 تسجيل بكرت آخر</span>
+            </button>
+        </form>
+
+        <!-- Contact -->
+        <div class="contact-links">
+            <a href="tel:780405427">📞 780405427</a>
+            <a href="tel:730036045">📞 730036045</a>
+        </div>
+        <p class="credit-footer">برمجة وتصميم المهندس/صلاح الحداد</p>
+    </div>
+</body>
+</html>
